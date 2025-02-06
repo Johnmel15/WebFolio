@@ -5,7 +5,6 @@ interface ProjectCardProps {
   description: string
   technologies: string[]
   imageUrl: string
-  githubUrl?: string
   liveUrl?: string
 }
 
@@ -14,7 +13,6 @@ export function ProjectCard({
   description,
   technologies,
   imageUrl,
-  githubUrl,
   liveUrl,
 }: ProjectCardProps) {
   return (
@@ -42,17 +40,6 @@ export function ProjectCard({
           </div>
         </div>
         <div className="mt-6 flex items-center gap-4">
-          {githubUrl && (
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-primary"
-            >
-              <Github className="h-4 w-4" />
-              <span>Code</span>
-            </a>
-          )}
           {liveUrl && (
             <a
               href={liveUrl}
