@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 export const Hero = () => {
   return (
@@ -20,6 +20,14 @@ export const Hero = () => {
               className="w-32 h-32 rounded-full object-cover shadow-lg"
             />
           </div>
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl sm:font-[500]"
+          >
+            Hi, I'm John Melvie Sulla
+          </motion.h3>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -34,7 +42,8 @@ export const Hero = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="mt-6 text-lg leading-8 text-gray-600"
           >
-            Building beautiful and functional web applications with modern technologies.
+            Building beautiful and functional web applications with modern
+            technologies.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +57,10 @@ export const Hero = () => {
             >
               Contact Me
             </a>
-            <a href="#projects" className="text-sm font-semibold leading-6 text-gray-900">
+            <a
+              href="#projects"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
               View Projects <span aria-hidden="true">→</span>
             </a>
           </motion.div>

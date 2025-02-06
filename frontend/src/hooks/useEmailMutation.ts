@@ -11,7 +11,7 @@ interface EmailFormData {
 export const useEmailMutation = () => {
   return useMutation({
     mutationFn: async (data: EmailFormData) => {
-      const response = await axios.post('/api/send-email', data);
+      const response = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}/send-email`, data);
       return response.data;
     },
   });
