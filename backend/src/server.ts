@@ -5,7 +5,6 @@ import path from "path";
 import apiRoutes from "./routes/api";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(
@@ -19,6 +18,16 @@ app.use(express.json());
 // API Routes
 app.use("/api", apiRoutes);
 
+// Health check route
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+// Handle 404
+app.use((req, res) => {
+  res.status(404).json({ error: "Not Found" });
+});
+
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -27,12 +36,13 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
 
-// Only start the server if we're not in a Vercel environment
+// Export for serverless
+export default app;
+
+// Start server if not in production
 if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 }
-
-// Export the app
-export default app;
