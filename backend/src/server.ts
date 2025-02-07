@@ -15,6 +15,11 @@ app.use(
 );
 app.use(express.json());
 
+// Root route
+app.get("/", (req, res) => {
+  res.json({ message: "Backend API is running" });
+});
+
 // API Routes
 app.use("/api", apiRoutes);
 
@@ -25,8 +30,31 @@ app.get("/health", (req, res) => {
 
 // Handle 404
 app.use((req, res) => {
-  res.status(404).json({ error: "Not Found" });
+  res.status(404).json({
+    error: "Not Found",
+    path: req.path,
+    method: req.method,
+  });
 });
+
+// Error handling middleware
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    console.error(err.stack);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message:
+        process.env.NODE_ENV === "development"
+          ? err.message
+          : "Something went wrong",
+    });
+  }
+);
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
