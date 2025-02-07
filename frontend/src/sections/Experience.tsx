@@ -58,8 +58,8 @@ const experiences = [
     startDate: "May 2018",
     endDate: "Dec 2020",
     tasks: [
-      "Built and optimized healthcare-related applications, including Hospital Information Systems (HIS), E-Claims, Electronic Health Records (EHR), Dietary Apps, and Electronic Medical Records (EMR).",
-      "Worked closely with local hospitals in the Philippines to develop and customize software solutions tailored to their needs.",
+      "Built and optimized a web platform that gives streamline for procesing even booking and manages event details.",
+      "Worked closely with a direct client to develop and customize software solutions tailored to their needs.",
     ],
     techStack: ["PHP", "Laravel", "Vue.js", "Vuex", "CSS", "MySQL"],
   },
