@@ -1,11 +1,11 @@
-import { Github, ExternalLink } from 'lucide-react'
+import { ExternalLink } from "lucide-react";
 
 interface ProjectCardProps {
-  title: string
-  description: string
-  technologies: string[]
-  imageUrl: string
-  liveUrl?: string
+  title: string;
+  description: string;
+  technologies: string[];
+  imageUrl: string;
+  liveUrl?: string;
 }
 
 export function ProjectCard({
@@ -54,5 +54,5 @@ export function ProjectCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

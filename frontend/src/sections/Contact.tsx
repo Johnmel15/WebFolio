@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ContactForm } from "../components";
-import { GithubIcon, LinkedinIcon, MailIcon } from "lucide-react";
+import { LinkedinIcon, MailIcon } from "lucide-react";
 
 export const Contact = () => {
   return (

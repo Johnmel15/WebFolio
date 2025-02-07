@@ -25,7 +25,6 @@ import {
   SiStripe,
   SiMariadb,
   SiSwagger,
-  SiVscodium,
   SiPostman,
   SiSourcetree,
 } from "react-icons/si";
