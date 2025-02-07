@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ContactForm } from "../components";
 import { LinkedinIcon, MailIcon } from "lucide-react";
 import Particles from "react-tsparticles";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { loadSlim } from "tsparticles-slim";
 import type { Container, Engine } from "tsparticles-engine";
 
@@ -18,6 +18,24 @@ export const Contact = () => {
     },
     []
   );
+
+  useEffect(() => {
+    const cursorEffect = document.createElement('div');
+    cursorEffect.classList.add('cursor-effect');
+    document.body.appendChild(cursorEffect);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorEffect.style.left = `${e.clientX}px`;
+      cursorEffect.style.top = `${e.clientY}px`;
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.body.removeChild(cursorEffect);
+    };
+  }, []);
 
   return (
     <section
@@ -38,10 +56,6 @@ export const Contact = () => {
           fpsLimit: 120,
           interactivity: {
             events: {
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
               onHover: {
                 enable: true,
                 mode: "repulse",
@@ -49,7 +63,7 @@ export const Contact = () => {
             },
             modes: {
               push: {
-                quantity: 4,
+                quantity: 2,
               },
               repulse: {
                 distance: 200,
@@ -101,7 +115,7 @@ export const Contact = () => {
           },
         }}
       />
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 pt-[70px] lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

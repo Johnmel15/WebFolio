@@ -35,10 +35,6 @@ export const Hero = () => {
           fpsLimit: 120,
           interactivity: {
             events: {
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
               onHover: {
                 enable: true,
                 mode: "repulse",
@@ -46,7 +42,7 @@ export const Hero = () => {
             },
             modes: {
               push: {
-                quantity: 4,
+                quantity: 2,
               },
               repulse: {
                 distance: 200,
@@ -78,9 +74,9 @@ export const Hero = () => {
             number: {
               density: {
                 enable: true,
-                area: 1080,
+                area: 800,
               },
-              value: 60,
+              value: 100,
             },
             opacity: {
               value: 0.5,

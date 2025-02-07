@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -12,6 +12,28 @@ const navigation = [
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    const sections = navigation.map(item => document.querySelector(item.href));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, { threshold: 0.1 }); // Adjust threshold as needed
+
+    sections.forEach(section => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      sections.forEach(section => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, []);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
@@ -21,7 +43,7 @@ export const Header = () => {
       >
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
-            <span className="text-2xl font-bold text-gray-900">WebFolio</span>
+            <img src="/images/logo-1.png" className="object-contain w-[190px]" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -38,7 +60,9 @@ export const Header = () => {
             <a
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-primary transition-colors"
+              className={`text-sm font-semibold leading-6 text-gray-900 hover:text-[#6365f1] transition-colors ${
+                activeSection === item.href.substring(1) ? 'text-[#6365f1]' : ''
+              }`}
             >
               {item.name}
             </a>
