@@ -17,6 +17,8 @@ const experiences = [
     techStack: [
       "React",
       "Next.js",
+      "Tanstack Query",
+      "Zustand",
       "Node.js",
       "Express",
       "TypeScript",
@@ -58,10 +60,20 @@ const experiences = [
     startDate: "May 2018",
     endDate: "Dec 2020",
     tasks: [
-      "Built and optimized a web platform that gives streamline for procesing even booking and manages event details.",
+      "Built and optimized a web platform that gives streamline for procesing event booking and manages event details. Can add also some equipments and addons base on the company can offer.",
       "Worked closely with a direct client to develop and customize software solutions tailored to their needs.",
+      "Integrate payment gateway for payment processing using Stripe and Paypal.",
     ],
-    techStack: ["PHP", "Laravel", "Vue.js", "Vuex", "CSS", "MySQL"],
+    techStack: [
+      "PHP",
+      "Laravel",
+      "Vue.js",
+      "Vuex",
+      "CSS",
+      "MySQL",
+      "Stripe",
+      "Paypal",
+    ],
   },
   {
     company: "Segworks Technologies Corporation",

@@ -24,6 +24,7 @@ export function ProjectCard({
           className="h-full w-full object-cover object-center"
         />
       </div>
+      <hr className="mt-2 ml-[10px] mr-[10px]" />
       <div className="flex flex-1 flex-col p-6">
         <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
         <p className="mt-3 flex-1 text-sm text-gray-500">{description}</p>
@@ -32,7 +33,7 @@ export function ProjectCard({
             {technologies.map((tech) => (
               <span
                 key={tech}
-                className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
+                className="px-3 py-1 text-xs font-medium bg-[#12294f] text-gray-100 rounded-full"
               >
                 {tech}
               </span>
