@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface ExperienceCardProps {
   company: string;
@@ -31,28 +31,33 @@ export const ExperienceCard = ({
           <p className="text-lg text-primary">{company}</p>
         </div>
         <div className="text-sm text-gray-500 mt-2 sm:mt-0">
-          {startDate} - {endDate || 'Present'}
+          {startDate} - {endDate || "Present"}
         </div>
       </div>
 
       <div className="mb-4">
-        <h4 className="text-sm font-semibold text-gray-700 mb-2">Key Responsibilities:</h4>
-        <ul className="list-disc list-inside space-y-1">
+        <h4 className="text-sm font-semibold text-gray-700 mb-2">
+          Key Responsibilities:
+        </h4>
+        <ul className="space-y-1">
           {tasks.map((task, index) => (
-            <li key={index} className="text-gray-600 text-sm">
-              {task}
+            <li key={index} className="flex text-gray-600 text-sm">
+              <span className="mr-2">•</span>
+              <span className="whitespace-pre-line">{task}</span>
             </li>
           ))}
         </ul>
       </div>
 
       <div>
-        <h4 className="text-sm font-semibold text-gray-700 mb-2">Technologies Used:</h4>
+        <h4 className="text-sm font-semibold text-gray-700 mb-2">
+          Technologies Used:
+        </h4>
         <div className="flex flex-wrap gap-2">
           {techStack.map((tech, index) => (
             <span
               key={index}
-              className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full"
+              className="px-3 py-1 text-xs font-medium bg-[#12294f] text-gray-100 rounded-full"
             >
               {tech}
             </span>

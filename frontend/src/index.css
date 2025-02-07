@@ -20,6 +20,10 @@
   text-rendering: optimizeLegibility;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 a {
   @apply text-gray-900;
 }
@@ -49,4 +53,22 @@ button:focus-visible {
   button {
     @apply bg-gray-100;
   }
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-background {
+  background: linear-gradient(270deg, #ff7e5f, #feb47b, #ff7e5f);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
 }
