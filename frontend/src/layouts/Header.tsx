@@ -1,35 +1,34 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
-
-const navigation = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
-];
+import { navigation } from "../utils/navigations";
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
-    const sections = navigation.map(item => document.querySelector(item.href));
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    }, { threshold: 0.1 }); // Adjust threshold as needed
+    const sections = navigation.map((item) => {
+      const section = document.querySelector(item.href);
+      return section;
+    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.target.id) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    ); // Adjust threshold as needed
 
-    sections.forEach(section => {
+    sections.forEach((section) => {
       if (section) observer.observe(section);
     });
 
     return () => {
-      sections.forEach(section => {
+      sections.forEach((section) => {
         if (section) observer.unobserve(section);
       });
     };
@@ -43,7 +42,11 @@ export const Header = () => {
       >
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
-            <img src="/images/logo-1.png" className="object-contain w-[190px]" />
+            <img
+              src="/images/logo-1.png"
+              width="150px"
+              className="object-contain"
+            />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -56,17 +59,26 @@ export const Header = () => {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={`text-sm font-semibold leading-6 text-gray-900 hover:text-[#6365f1] transition-colors ${
-                activeSection === item.href.substring(1) ? 'text-[#6365f1]' : ''
-              }`}
-            >
-              {item.name}
-            </a>
-          ))}
+          {navigation.map((item) => {
+            console.log(
+              activeSection,
+              item.href.substring(1),
+              activeSection === item.href.substring(1) ? "text-[#6365f1]" : ""
+            );
+            return (
+              <a
+                key={item.name}
+                href={item.href}
+                className={`text-sm font-semibold leading-6 transition-colors ${
+                  activeSection === item.href.substring(1)
+                    ? "text-[#6365f1]"
+                    : "text-gray-900"
+                }`}
+              >
+                {item.name}
+              </a>
+            );
+          })}
         </div>
       </nav>
       {mobileMenuOpen && (

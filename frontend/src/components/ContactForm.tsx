@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useEmailMutation } from "../hooks/useEmailMutation";
 import { motion } from "framer-motion";
+import { useContactMutation } from "../hooks/mutation";
 
 export const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -10,16 +10,34 @@ export const ContactForm = () => {
     body: "",
   });
 
-  const {
-    mutate: sendEmail,
-    isPending,
-    isSuccess,
-    isError,
-  } = useEmailMutation();
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { sendEmail } = useContactMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    sendEmail(formData);
+    setIsPending(true);
+
+    const response = await sendEmail(formData);
+
+    if (response.code === 200) {
+      setIsSuccess(true);
+      setIsPending(false);
+      setMessage(response.message);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        body: "",
+      });
+    } else {
+      setIsError(true);
+      setIsPending(false);
+      setMessage(response.message);
+    }
   };
 
   const handleChange = (
@@ -130,7 +148,7 @@ export const ContactForm = () => {
             animate={{ opacity: 1 }}
             className="text-green-600 text-center"
           >
-            Message sent successfully!
+            {message}
           </motion.div>
         )}
 
@@ -140,7 +158,7 @@ export const ContactForm = () => {
             animate={{ opacity: 1 }}
             className="text-red-600 text-center"
           >
-            Failed to send message. Please try again.
+            {message}
           </motion.div>
         )}
       </div>

@@ -1,6 +1,6 @@
-import nodemailer from 'nodemailer';
-import { Request, Response } from 'express';
-import emailConfig from '../config/email';
+import nodemailer from "nodemailer";
+import { Request, Response } from "express";
+import emailConfig from "../config/email";
 
 const transporter = nodemailer.createTransport(emailConfig.smtp);
 
@@ -24,9 +24,11 @@ ${body}
     };
 
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Email sent successfully' });
+    res.status(200).json({ code: 200, message: "Email sent successfully" });
   } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).json({ error: 'Failed to send email' });
+    console.error("Error sending email:", error);
+    res
+      .status(500)
+      .json({ code: 500, message: "Failed to send email, please try again." });
   }
 };

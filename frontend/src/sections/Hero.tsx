@@ -107,8 +107,10 @@ export const Hero = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               src="./images/me.png"
+              height="120px"
+              width="120px"
               alt="John Melvie Sulla"
-              className="w-32 h-32 rounded-full object-cover shadow-lg"
+              className="rounded-full object-cover shadow-lg"
             />
           </div>
           <motion.h3
