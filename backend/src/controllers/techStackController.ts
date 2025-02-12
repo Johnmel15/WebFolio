@@ -2,13 +2,28 @@ import { Request, Response } from "express";
 import TechStack from "../models/TechStack";
 import { ErrorHandler } from "../utils/errorHandler";
 
-export const getAllTechStack = async (
-  _req: Request,
-  res: Response
-): Promise<void> => {
+export const getAllTechStack = async (req: Request, res: Response): Promise<void> => {
   try {
-    const techStack = await TechStack.find();
-    res.status(200).json(techStack);
+    const search = (req.query.search as string) || "";
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
+
+    const query = search
+      ? { name: { $regex: search, $options: "i" } } // Case-insensitive search
+      : {};
+
+    const total = await TechStack.countDocuments(query); // Total number of items
+
+    const techStack = await TechStack.find(query)
+      .skip((page - 1) * limit) // Skip items for pagination
+      .limit(limit); // Limit results per page
+
+    res.status(200).json({
+      data: techStack,
+      total,
+      totalPages: Math.ceil(total / limit), // Total number of pages
+      currentPage: page,
+    });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
