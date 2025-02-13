@@ -8,39 +8,15 @@ import connectDB from "./config/db";
 
 const app = express();
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-
-  next();
-});
-
+app.use(cors());
 app.use(express.json()); // Ensure body parsing middleware is after CORS
 
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
-});
-
-// Root route
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
 
-app.use((req, res, next) => {
-  console.log("CORS Headers:", res.getHeaders());
-  next();
-});
-
-// API Routes
 app.use("/api", apiRoutes);
 
-// Health check route
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
