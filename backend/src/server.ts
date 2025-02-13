@@ -8,18 +8,14 @@ import connectDB from "./config/db";
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "https://web-folio-seven.vercel.app",
-    "https://webfolio-admin.vercel.app",
-    "http://localhost:5175",
-    "http://localhost:5174",
-    "http://localhost:3001",
-  ],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  next();
+});
 
 app.use(express.json()); // Ensure body parsing middleware is after CORS
 
