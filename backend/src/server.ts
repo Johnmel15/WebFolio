@@ -9,14 +9,25 @@ import connectDB from "./config/db";
 const app = express();
 
 app.use(cors());
+
 app.use(express.json()); // Ensure body parsing middleware is after CORS
 
+app.options("*", cors());
+
+// Root route
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
 
+app.use((req, res, next) => {
+  console.log("CORS Headers:", res.getHeaders());
+  next();
+});
+
+// API Routes
 app.use("/api", apiRoutes);
 
+// Health check route
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
