@@ -8,23 +8,21 @@ import connectDB from "./config/db";
 
 const app = express();
 
-// Middleware
-app.use(
-  cors({
-    origin: [
-      "https://web-folio-seven.vercel.app",
-      "https://webfolio-admin.vercel.app",
-      "http://localhost:5175",
-      "http://localhost:5174",
-      "http://localhost:3001",
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors({
+  origin: [
+    "https://web-folio-seven.vercel.app",
+    "https://webfolio-admin.vercel.app",
+    "http://localhost:5175",
+    "http://localhost:5174",
+    "http://localhost:3001",
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-// Ensure CORS headers are present on preflight requests
+app.use(express.json()); // Ensure body parsing middleware is after CORS
+
 app.options("*", (req, res) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -33,11 +31,14 @@ app.options("*", (req, res) => {
   res.sendStatus(200);
 });
 
-app.use(express.json());
-
 // Root route
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
+});
+
+app.use((req, res, next) => {
+  console.log("CORS Headers:", res.getHeaders());
+  next();
 });
 
 // API Routes
@@ -93,6 +94,5 @@ if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     connectDB();
     console.log(`Server running on port ${PORT}`);
-    
   });
 }
