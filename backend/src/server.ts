@@ -8,20 +8,16 @@ import connectDB from "./config/db";
 
 const app = express();
 
+// Connect to Database (Move outside of `if` statement)
+connectDB();
+
 app.use(cors());
-
-app.use(express.json()); // Ensure body parsing middleware is after CORS
-
+app.use(express.json()); 
 app.options("*", cors());
 
 // Root route
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
-});
-
-app.use((req, res, next) => {
-  console.log("CORS Headers:", res.getHeaders());
-  next();
 });
 
 // API Routes
@@ -68,14 +64,10 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
 
-// Export for serverless
-export default app;
+// ✅ Ensure Server Always Starts
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
 
-// Start server if not in production
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-    connectDB();
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+export default app;
