@@ -11,31 +11,25 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        "https://web-folio-seven.vercel.app",
-        "https://webfolio-admin.vercel.app",
-        "http://localhost:5175",
-        "http://localhost:5174",
-        "http://localhost:3001",
-      ];
-
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS not allowed"));
-      }
-    },
+    origin: [
+      "https://web-folio-seven.vercel.app",
+      "https://webfolio-admin.vercel.app",
+      "http://localhost:5175",
+      "http://localhost:5174",
+      "http://localhost:3001",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// Ensure CORS headers are present on preflight requests
 app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
   res.sendStatus(200);
 });
 
