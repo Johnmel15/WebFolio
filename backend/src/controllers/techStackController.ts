@@ -9,19 +9,19 @@ export const getAllTechStack = async (req: Request, res: Response): Promise<void
     const limit = parseInt(req.query.limit as string, 10) || 10;
 
     const query = search
-      ? { name: { $regex: search, $options: "i" } } // Case-insensitive search
+      ? { name: { $regex: search, $options: "i" } } 
       : {};
 
-    const total = await TechStack.countDocuments(query); // Total number of items
+    const total = await TechStack.countDocuments(query);
 
     const techStack = await TechStack.find(query)
-      .skip((page - 1) * limit) // Skip items for pagination
-      .limit(limit); // Limit results per page
+      .skip((page - 1) * limit) 
+      .limit(limit); 
 
     res.status(200).json({
       data: techStack,
       total,
-      totalPages: Math.ceil(total / limit), // Total number of pages
+      totalPages: Math.ceil(total / limit),
       currentPage: page,
     });
   } catch (error) {
