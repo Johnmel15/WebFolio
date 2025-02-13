@@ -35,6 +35,17 @@ export const register = async (req: Request, res: Response): Promise<any> => {
 // LOGIN FUNCTION (FIXED)
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    // Handle Preflight Requests (OPTIONS)
+    if (req.method === "OPTIONS") {
+      res.sendStatus(200);
+      return;
+    }
+
     const { email, password } = req.body;
 
     // Check if user exists
