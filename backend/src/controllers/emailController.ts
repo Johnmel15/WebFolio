@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 import { Request, Response } from "express";
 import emailConfig from "../config/email";
+import Email from "../models/Email";
+import { ErrorHandler } from "../utils/errorHandler";
 
 const transporter = nodemailer.createTransport(emailConfig.smtp);
 
@@ -24,11 +26,37 @@ ${body}
     };
 
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ code: 200, message: "Email sent successfully" });
+
+    const emailObj = new Email({
+      name,
+      email,
+      subject,
+      message: body,
+    });
+
+    const newEmailObj = await emailObj.save();
+
+    res.status(200).json({
+      code: 200,
+      message: "Email sent successfully",
+      data: newEmailObj,
+    });
   } catch (error) {
-    console.error("Error sending email:", error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Failed to send email, please try again." });
+    const { status, body } = ErrorHandler.handleValidationError(error);
+    res.status(status).json(body);
+  }
+};
+
+export const getEmails = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const emails = await Email.find();
+    res.status(200).json({
+      code: 200,
+      message: "Emails fetched successfully",
+      data: emails,
+    });
+  } catch (error) {
+    const { status, body } = ErrorHandler.handleValidationError(error);
+    res.status(status).json(body);
   }
 };

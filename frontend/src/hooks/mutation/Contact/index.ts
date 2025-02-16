@@ -6,7 +6,7 @@ const useContactMutation = () => {
 
   const sendEmail = async (variables: SendEmailArgs) => {
     return post.mutateAsync({
-      endpoint: "/send-email",
+      endpoint: "/email/send-email",
       variables,
     });
   };
