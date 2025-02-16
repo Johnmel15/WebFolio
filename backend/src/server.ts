@@ -11,9 +11,41 @@ const app = express();
 // Connect to Database (Move outside of `if` statement)
 connectDB();
 
-app.use(cors());
-app.use(express.json()); 
-app.options("*", cors());
+console.log(process.env.NODE_ENV)
+
+const allowedOrigins = [
+  "https://web-folio-seven.vercel.app", // Production frontend
+  "https://webfolio-admin.vercel.app/", // Production Admin
+];
+
+if (process.env.NODE_ENV === "development") {
+  allowedOrigins.push("http://localhost:5173", "http://localhost:5174");
+}
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.error("Blocked by CORS:", origin); // Debugging
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5174"); // Adjust for your frontend
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.sendStatus(204); // No Content
+});
+
 
 // Root route
 app.get("/", (req, res) => {
