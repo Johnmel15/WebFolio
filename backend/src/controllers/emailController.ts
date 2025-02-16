@@ -50,7 +50,9 @@ ${body}
 
 export const getEmails = async (req: Request, res: Response): Promise<void> => {
   try {
-    const emails = await Email.find();
+    const isUnread = req.query.unread === "true";
+    const filter = isUnread ? { isRead: false } : {};
+    const emails = await Email.find(filter);
     res.status(200).json({
       code: 200,
       message: "Emails fetched successfully",
