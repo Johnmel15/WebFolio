@@ -28,12 +28,13 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.error("Blocked by CORS:", origin); // Debugging
+        console.error("❌ Blocked by CORS:", origin); // Debugging
         callback(new Error("Not allowed by CORS"));
       }
     },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
