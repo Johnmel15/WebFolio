@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import emailConfig from "../config/email";
 import Email from "../models/Email";
 import { ErrorHandler } from "../utils/errorHandler";
-import mongoose from "mongoose";
 
 const transporter = nodemailer.createTransport(emailConfig.smtp);
 
@@ -51,8 +50,22 @@ ${body}
 export const getEmails = async (req: Request, res: Response): Promise<void> => {
   try {
     const isUnread = req.query.unread === "true";
-    const filter = isUnread ? { isRead: false } : {};
+    const isArchived = req.query.archived === "true";
+    const search = req.query.search || ""; // Get search term from query
+
+    const filter: any = {};
+    if (req.query.unread !== undefined) filter.isRead = !isUnread;
+    if (req.query.archived !== undefined) filter.archived = isArchived;
+    if (search) {
+      filter.$or = [
+        { subject: { $regex: search, $options: "i" } }, // Match in subject
+        { message: { $regex: search, $options: "i" } }, // Match in message
+        { email: { $regex: search, $options: "i" } }, // Match in email
+      ];
+    }
+
     const emails = await Email.find(filter);
+
     res.status(200).json({
       code: 200,
       message: "Emails fetched successfully",
@@ -64,13 +77,16 @@ export const getEmails = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const deleteEmail = async (req: Request, res: Response): Promise<void> => {
+export const deleteEmail = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
 
     const email = await Email.findById(id);
     if (!email) {
-      res.status(404).json({ code: 404,message: "Email not found" });
+      res.status(404).json({ code: 404, message: "Email not found" });
       return;
     }
     await email.deleteOne();
@@ -79,7 +95,7 @@ export const deleteEmail = async (req: Request, res: Response): Promise<void> =>
     const { status, body } = ErrorHandler.handleValidationError(error);
     res.status(status).json(body);
   }
-}
+};
 
 export const readEmail = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -90,15 +106,32 @@ export const readEmail = async (req: Request, res: Response): Promise<void> => {
     const { status, body } = ErrorHandler.handleValidationError(error);
     res.status(status).json(body);
   }
-}
+};
 
-export const archiveEmail = async (req: Request, res: Response): Promise<void> => {
+export const archiveEmail = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
-    const { isArchived } = req.body;
-    await Email.findByIdAndUpdate(req.params.id, { isArchived });
-    res.status(200).json({ code: 200, message: "Email updated successfully" });
+    const { archived } = req.body;
+    const updatedEmail = await Email.findByIdAndUpdate(
+      req.params.id,
+      { archived },
+      { new: true }
+    );
+
+    if (!updatedEmail) {
+      res.status(404).json({ code: 404, message: "Email not found" });
+      return;
+    }
+
+    res.status(200).json({
+      code: 200,
+      message: "Email archived successfully",
+      data: updatedEmail,
+    });
   } catch (error) {
     const { status, body } = ErrorHandler.handleValidationError(error);
     res.status(status).json(body);
   }
-}
+};
