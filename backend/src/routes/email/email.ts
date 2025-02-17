@@ -2,7 +2,8 @@ import express from "express";
 import {
   sendEmail,
   getEmails,
-  deleteEmail
+  deleteEmail,
+  readEmail
 } from "../../controllers/emailController";
 
 const router = express.Router();
@@ -10,5 +11,6 @@ const router = express.Router();
 router.post("/send-email", sendEmail);
 router.get("/", getEmails);
 router.delete("/:id", deleteEmail);
+router.patch("/:id/read", readEmail);
 
 export default router;

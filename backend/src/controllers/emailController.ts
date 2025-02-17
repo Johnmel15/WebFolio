@@ -80,3 +80,14 @@ export const deleteEmail = async (req: Request, res: Response): Promise<void> =>
     res.status(status).json(body);
   }
 }
+
+export const readEmail = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { isRead } = req.body;
+    await Email.findByIdAndUpdate(req.params.id, { isRead });
+    res.status(200).json({ code: 200, message: "Email updated successfully" });
+  } catch (error) {
+    const { status, body } = ErrorHandler.handleValidationError(error);
+    res.status(status).json(body);
+  }
+}
