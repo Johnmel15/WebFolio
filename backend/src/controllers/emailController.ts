@@ -91,3 +91,14 @@ export const readEmail = async (req: Request, res: Response): Promise<void> => {
     res.status(status).json(body);
   }
 }
+
+export const archiveEmail = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { isArchived } = req.body;
+    await Email.findByIdAndUpdate(req.params.id, { isArchived });
+    res.status(200).json({ code: 200, message: "Email updated successfully" });
+  } catch (error) {
+    const { status, body } = ErrorHandler.handleValidationError(error);
+    res.status(status).json(body);
+  }
+}
