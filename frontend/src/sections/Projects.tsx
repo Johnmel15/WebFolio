@@ -2,10 +2,24 @@ import { motion } from 'framer-motion';
 import { ProjectCard } from '../components';
 
 const projects = [
+  // {
+  //   title: 'CarCloud Business',
+  //   description: 'An enhanced version of the CarCloud Retail App, designed for business use. It enables companies to manage and track their entire vehicle inventory in one centralized platform.',
+  //   technologies: ['React.js', 'Typescript', 'Node.js', 'MySQL', 'Tailwind CSS', 'Go Lang'],
+  //   imageUrl: './projects/carcloud-retails.png',
+  //   liveUrl: 'https://my.carcloudcommunity.co.uk/',
+  // },
+  {
+    title: 'CarCloud Retail',
+    description: 'A UK-based web app that has also a mobile version where you can manage your cars, from your car information up to the insurances, next road tax expiration and finances all in one place.',
+    technologies: ['React.js', 'Typescript', 'Node.js', 'MySQL', 'Tailwind CSS', 'Go Lang'],
+    imageUrl: './projects/carcloud-retails.png',
+    liveUrl: 'https://my.carcloudcommunity.co.uk/',
+  },
   {
     title: 'MyShed Admin',
     description: 'A dashboard for caters the business operations of MyShed, including Order, Inventory, Leads, Users, Reports, Analytics, Settings and Utilities, Shed Style, Models, Stores and Catalogues.',
-    technologies: ['React.js', 'Typescript','Node.js', 'MySQL', 'Chakra UI', 'Tailwind CSS'],
+    technologies: ['React.js', 'Typescript', 'Node.js', 'MySQL', 'Chakra UI', 'Tailwind CSS'],
     imageUrl: './projects/myshed-admin.png',
     liveUrl: 'https://admin-dev.gitsafe.org/',
   },
