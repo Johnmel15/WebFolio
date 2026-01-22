@@ -6,7 +6,7 @@ const experiences = [
     company: "Theia Digital Ltd",
     position: "Mid Frontend Developer",
     startDate: "Mar 2025",
-    endDate: "Oct 2025",
+    endDate: "Present",
     tasks: [
       "Developed and optimized responsive front-end interfaces using React.js, Next.js, and TypeScript for dynamic templating and efficient UI rendering.",
       "Enhanced website performance and ensured seamless responsiveness across various devices and screen sizes.",
